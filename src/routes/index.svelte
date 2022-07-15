@@ -1,32 +1,24 @@
 <script lang="ts">
-    import { targetWave } from "../utils/funcs";
+    import { initializeWaves } from "../utils/funcs";
     import { onMount } from "svelte";
+    import { WAVE_CONTAINER_ID } from "../consts";
+    import Wave from "../components/Wave.svelte";
 
     onMount(() => {
-        const els = document.querySelectorAll('.wave');
-
-        els.forEach(el => {
-            el.addEventListener('mouseenter', (e) => {
-                const target = e.target as HTMLElement;
-                target.setAttribute('data-block', 'true')
-
-                targetWave(target);
-            })
-
-            el.addEventListener('mouseleave', (e) => {
-                const target = e.target as HTMLElement;
-                target.setAttribute('data-block', 'false')
-
-                targetWave(target);
-            })
-        })
+        initializeWaves();
     })
 
-    let density = 25;
+    let density = 99;
 </script>
 
-<div class="[ wave-container ]">
+<nav class="[ primary-nav ]">
+    <h1>WavlyJS</h1>
+</nav>
+
+<div class="[ object ]"></div>
+
+<div id={ WAVE_CONTAINER_ID } class="[ wave-container ]">
     {#each {length: density} as _, i}
-    <div class="[ wave ]" data-block='false' data-weight='0'></div>
+        <Wave />
     {/each}
 </div>

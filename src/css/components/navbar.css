@@ -1,0 +1,6 @@
+.primary-nav {
+    display: flex;
+    justify-content: center;
+
+    padding: var(--navbar-padding);
+}

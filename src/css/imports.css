@@ -1,2 +1,6 @@
 @import url('./resets.css');
+@import url('./root.css');
+
 @import url('./waves.css');
+
+@import url('./components/navbar.css');

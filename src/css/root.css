@@ -1,0 +1,11 @@
+:root {
+    --fs-400: 1rem;
+
+    --clr-wave: hsl(210 82% 56%);
+    --clr-wave-background: hsl(210 82% 56% / 0.66);
+
+    --clr-text-white: white;
+    --clr-text-400: hsl(0 0% 69%);
+
+    --navbar-padding: 1em 0;
+}

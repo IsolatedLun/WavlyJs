@@ -1,18 +1,42 @@
 .wave-container {
     position: absolute;
     display: grid;
-    grid-auto-flow: 1fr column;
-    background-color: hsl(210 82% 56% / 0.66);
 
-    inset: 50% 0 0 0;
+    grid-auto-flow: 1fr column;
+    background-color: var(--clr-wave-background);
+
+    inset: 60% 0 0 0;
 }
 
 .wave {
+    position: relative;
+
     width: 100%;
     height: 100%;
+}
 
-    background-color: hsl(210 82% 56%);
+.wave-filler {
+    position: absolute;
 
+    background-color: var(--clr-wave);
     transform-origin: bottom;
-    transition: transform 125ms ease;
+    transition: transform 125ms ease, color 125ms ease;
+
+    inset: 0;
+}
+
+.wave::after {
+    display: none;
+    content: attr(data-weight);
+    position: absolute;
+
+    font-size: var(--fs-300, 0.5em);
+    color: var(--clr-text-white);
+
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    z-index: 999;
+    pointer-events: none;
 }
