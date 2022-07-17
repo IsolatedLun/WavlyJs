@@ -1,24 +1,51 @@
 import { OBJECT_MAX_Y } from "../consts";
-import { def, selectObjects, selectWaves, targetWave } from "./funcs";
+import { clamp, def, getTranslateXY, rand, selectObjects, selectWaves, targetWave } from "./funcs";
 
 /**
  * @summary Applies "gravity" or simply increases an object's y pos till it reaches the bottom of the screen.
 */
 export function applyGravity() {
+    function getObjData(obj: HTMLElement): [number, number, string, boolean] {
+        const y = def(Number(obj.getAttribute('data-y')), 0);
+        const objMass = def(Number(obj.getAttribute('data-mass')), 1);
+        const handler = def(obj.getAttribute('data-handler'), 'object')!;
+        const isDead = Boolean(def(eval(obj.getAttribute('data-dead')!), false));
+
+        return [y, objMass, handler, isDead];
+    }
     const objs = selectObjects();
 
     objs.forEach(obj => {
-        const y = def(Number(obj.getAttribute('data-y')), 0);
-        const objMass = def(Number(obj.getAttribute('data-mass')), 1);
+        const [y, objMass, handler, isDead] = getObjData(obj);
+
+        if(isDead)
+            return;
         
         // If object is in bounds
         if(y < OBJECT_MAX_Y) {
-            obj.style.transform = `translateY(${y}px)`;
+            // Different object require different handlers like rain.
+            switch(handler) {
+                case 'object':
+                    objectHandler(obj, y);
+                    break;
+                case 'rain':
+                    rainHandler(obj, y);
+                    break;
+            }
+
+
             obj.setAttribute('data-y', String(y + 10 * objMass));
+        }
+        else {
+            switch(handler) {
+                case 'rain':
+                    obj.remove();
+            }
         }
     })
 
     checkWaveCollisions();
+    window.requestAnimationFrame(applyGravity);
 }
 
 // !!!!!!!!! Optimization: Add chunk masks
@@ -37,8 +64,21 @@ export function checkWaveCollisions() {
                 waves[i].setAttribute('data-block', 'true');
                 waves[i].setAttribute('data-affector', obj.title);
 
-                return targetWave(waves[i], Number(obj.getAttribute('data-mass')!));;
+                if(obj.title !== 'rain')
+                    targetWave(waves[i], Number(obj.getAttribute('data-mass')));
+                return;
             }
         }
     })
+}
+
+// Handlers
+function objectHandler(obj: HTMLElement, y: number) {
+    obj.style.transform = `translateY(${y}px)`;
+}
+
+function rainHandler(rainEl: HTMLElement, y: number, reset=false) {
+    const { x } = getTranslateXY(rainEl);
+
+    rainEl.style.transform = `translate(${x}px, ${y}px)`;
 }

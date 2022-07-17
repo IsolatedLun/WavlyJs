@@ -1,0 +1,14 @@
+.card {
+    display: inline-block;
+
+    padding: var(--card-padding);
+    background-color: var(--clr-background-card);
+    border-radius: var(--card-border-radius, 9px);
+}
+
+.card .card__evenly {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+
+    gap: var(--_gap, 0.1em);
+}

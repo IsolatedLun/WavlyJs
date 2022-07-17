@@ -1,0 +1,21 @@
+.object {
+    position: absolute;
+    width: var(--width);
+
+    background-color: var(--bg);
+    aspect-ratio: var(--aspect-ratio);
+
+    transition: transform 140ms linear;
+}
+
+.object:not([data-object]) {
+    --bg: hotpink;
+    --width: 2em;
+    --aspect-ratio: 1;
+}
+
+.object[data-object='rain'] {
+    --bg: var(--clr-wave);
+    --width: 0.25em;
+    --aspect-ratio: 1 / 8;
+}

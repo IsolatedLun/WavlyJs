@@ -80,15 +80,30 @@ export function initializeWaves() {
         })
     })
 }
-export 
+
 
 // Math
-function clamp(min: number, x: number, max: number): number {
+export function clamp(min: number, x: number, max: number): number {
     if(x > max)
         return max;
     if(x < min)
         return min;
     return x;
+}
+
+export function rand(x: number=1) {
+    return window.crypto.getRandomValues(new Uint8Array(100))[parseInt(String(Math.random() * 100))] * x;
+}
+
+// Misc
+export function getTranslateXY(el: HTMLElement) {
+    const style = window.getComputedStyle(el)
+    const matrix = new DOMMatrixReadOnly(style.transform)
+
+    return {
+        x: matrix.m41,
+        y: matrix.m42
+    }
 }
 
 // Short hands
